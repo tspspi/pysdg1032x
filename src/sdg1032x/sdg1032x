@@ -1,0 +1,98 @@
+import sys
+import socket
+import time
+
+class SDG1032XNetworkException(Exception):
+    pass
+
+class SDG1032X:
+    POLARITY_NORMAL = 1
+    POLARITY_INVERTED = 2
+
+    def __init__(self, remoteIp):
+        self.remoteIp = remoteIp
+        self.hSocket = None
+        try:
+            self.hSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        except socket.error:
+            raise SDG1032XNetworkException("Failed to create socket")
+        try:
+            self.hSocket.connect((remoteIp, 5024))
+        except socket.error:
+            raise SDG1032XNetworkException("Failed to connect to {}".format(remoteIp))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if self.hSocket != None:
+            self.hSocket.close()
+            self.hSocket = None
+
+    def close(self):
+        if self.hSocket != None:
+            self.hSocket.close()
+            self.hSocket = None
+
+    def internal_socketSend(self, command):
+        if self.hSocket == None:
+            raise SDG1032XNetworkException("Closed device cannot send data")
+        try:
+            self.hSocket.sendall(command)
+            self.hSocket.sendall(b'\n')
+            time.sleep(1)
+        except socket.error:
+            self.hSocket.close()
+            time.sleep(1)
+            raise SDG1032XNetworkException("Failed to transmit command {}".format(command))
+        reply = self.hSocket.recv(4096)
+        return reply
+
+    def factoryDefaults(self):
+        ret = self.internal_socketSend(b'*RST')
+	return ret
+
+    def identify(self):
+        ret = self.internal_socketSend(b'*IDN')
+        return ret
+
+    def outputEnable(self, channel=1, polarity=POLARITY_NORMAL, load="HZ"):
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+
+        command += b':OUTP ON,LOAD,'
+        if load == "HZ":
+            command += b'HZ,'
+        else:
+            command += bytes(str(load), encoding="ASCII")
+            command += b','
+
+        if polarity == self.POLARITY_NORMAL:
+            command += b'PLTR,NOR'
+        else:
+            command += b'PLTR,INVT'
+
+        ret = self.internal_socketSend(command)
+
+    def outputDisable(self, channel=1):
+        if channel == 1:
+            self.internal_socketSend(b'C1:OUTP OFF')
+        elif channel == 2:
+            self.internal_socketSend(b'C2:OUTP OFF')
+        else:
+            pass
+
+    def setDutyCycle(self, dutycycle, channel=1):
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV DUTY,'
+        command += bytes(str(dutycycle), encoding="ASCII")
+
+        ret = self.internal_socketSend(command)
+
