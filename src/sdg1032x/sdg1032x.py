@@ -123,6 +123,7 @@ class SDG1032X:
         command += b':BTWV STATE,ON'
 
         ret = self.internal_socketSend(command)
+
     def setBurstModeDisable(self, channel=1):
         command = b''
         if channel == 1:
@@ -144,7 +145,6 @@ class SDG1032X:
 
         ret = self.internal_socketSend(command)
 
-
     def setBurstDelay(self, delay, channel=1):
         command = b''
         if channel == 1:
@@ -157,7 +157,7 @@ class SDG1032X:
         ret = self.internal_socketSend(command)
 
     def setBurstTriggerSource(self, triggerSource, channel=1):
-        if (triggerSoruce != self.TRIGGERSOURCE_INTERNAL) and (triggerSource != self.TRIGGERSOURCE_EXTERNAL) and (triggerSource != self.TRIGGERSOURCE_MANUAL):
+        if (triggerSource != self.TRIGGERSOURCE_INTERNAL) and (triggerSource != self.TRIGGERSOURCE_EXTERNAL) and (triggerSource != self.TRIGGERSOURCE_MANUAL):
             raise SDG1032XParameterException("Invalid trigger source")
         if (channel != 1) and (channel != 2):
             raise SDG1032XParameterException("Invalid channel")
@@ -201,21 +201,3 @@ class SDG1032X:
         command += b':BTWV MTRIG'
 
         ret = self.internal_socketSend(command)
-
-
-if __name__ == "__main__":
-    import time
-
-    with SDG1032X("10.0.0.14") as sdg:
-        print("Testing library functions ...")
-
-        print("Identifying device")
-        print(sdg.identify())
-
-        sdg.setBurstModeEnable()
-
-        for i in range(0,10):
-            sdg.setBurstMode(sdg.BURSTMODE_GATE);
-            time.sleep(1)
-            sdg.setBurstMode(sdg.BURSTMODE_NCYC);
-            time.sleep(1)

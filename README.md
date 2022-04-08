@@ -15,8 +15,8 @@ Exposed functionality:
 | Set duty cycle       | ```setDutyCycle(dutycycle, channel=1)```                           | y           | y      | Sets duty cycle                               |
 | Enabling burst mode  | ```setBurstModeEnable(channel=1)```                                | y           | y      |                                               |
 | Disabling burst mode | ```setBurstModeDisable(channel=1)```                               | y           | y      |                                               |
-| Setting burst period | ```setBurstPeriod(period, channel=1)```                            | y           |        |                                               |
-| Setting burst delay  | ```setBurstDelay(delay, channel=1)```                              | y           |        |                                               |
-| Setting burst tigger | ```setBurstTriggerSource(triggerSource, channel=1)```              | y           |        |                                               |
+| Setting burst period | ```setBurstPeriod(period, channel=1)```                            | y           | y      | Burst period                                  |
+| Setting burst delay  | ```setBurstDelay(delay, channel=1)```                              | y           | y      |                                               |
+| Setting burst tigger | ```setBurstTriggerSource(triggerSource, channel=1)```              | y           | y      | Sets internal, external or manual trigger     |
 | Setting burst mode   | ```setBurstMode(burstMode, channel=1)```                           | y           | y      |                                               |
 | Triggering burst     | ```triggerBurst(channel=1)```                                      | y           |        |                                               |
