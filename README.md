@@ -20,3 +20,6 @@ Exposed functionality:
 | Setting burst tigger | ```setBurstTriggerSource(triggerSource, channel=1)```              | y           | y      | Sets internal, external or manual trigger     |
 | Setting burst mode   | ```setBurstMode(burstMode, channel=1)```                           | y           | y      |                                               |
 | Triggering burst     | ```triggerBurst(channel=1)```                                      | y           |        |                                               |
+| Set waveform         | ```setWaveType(waveform, channel=1)```                             | y           | y      | Sets the waveform of the signal               |
+| Set frequency        | ```setWaveFrequency(frequency, channel=1)```                       | y           | y      | Sets the waves frequency                      |
+| Set period           | ```setWavePeriod(period, channel=1)```                             | y           | y      | Sets the waves period                         |

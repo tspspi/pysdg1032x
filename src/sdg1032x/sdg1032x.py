@@ -27,6 +27,28 @@ class SDG1032X:
     BURSTMODE_GATE = 'GATE'
     BURSTMODE_NCYC = 'NCYC'
 
+    # Waveforms
+
+    WAVEFORM_SINE               = 'SINE'
+    WAVEFORM_SQUARE             = 'SQUARE'
+    WAVEFORM_RAMP               = 'RAMP'
+    WAVEFORM_PUSLE              = 'PULSE'
+    WAVEFORM_NOISE              = 'NOISE'
+    WAVEFORM_ARBITRARY          = 'ARB'
+    WAVEFORM_DC                 = 'DC'
+    WAVEFORM_PSEUDORANDOMBINARY = 'PRBS'
+
+    _knownWaveforms = [
+        WAVEFORM_SINE,
+        WAVEFORM_SQUARE,
+        WAVEFORM_RAMP,
+        WAVEFORM_PUSLE,
+        WAVEFORM_NOISE,
+        WAVEFORM_ARBITRARY,
+        WAVEFORM_DC,
+        WAVEFORM_PSEUDORANDOMBINARY
+    ]
+
     def __init__(self, remoteIp):
         self.remoteIp = remoteIp
         self.hSocket = None
@@ -201,3 +223,81 @@ class SDG1032X:
         command += b':BTWV MTRIG'
 
         ret = self.internal_socketSend(command)
+
+    def setWaveType(self, waveform, channel=1):
+        if (channel != 1) and (channel != 2):
+            raise SDG1032XParameterException("Invalid channel")
+
+        waveformValid = False
+        for supportedWaveform in self._knownWaveforms:
+            if waveform == supportedWaveform:
+                waveformValid = True
+                break
+        if not waveformValid:
+            raise SDG1032XParameterException("Unsupported waveform {}".format(waveform))
+
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV WVTP,'
+        command += bytes(waveform, encoding="ASCII")
+
+        ret = self.internal_socketSend(command)
+
+    def setWaveFrequency(self, frequency, channel=1):
+        if (channel != 1) and (channel != 2):
+            raise SDG1032XParameterException("Invalid channel")
+
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV FRQ,'
+        command += bytes(str(float(frequency)), encoding="ASCII")
+
+        ret = self.internal_socketSend(command)
+
+    def setWavePeriod(self, period, channel=1):
+        if (channel != 1) and (channel != 2):
+            raise SDG1032XParameterException("Invalid channel")
+
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV PERI,'
+        command += bytes(str(float(period)), encoding="ASCII")
+
+        ret = self.internal_socketSend(command)
+
+    def setWaveAmplitude(self, vpp, channel=1):
+        if (channel != 1) and (channel != 2):
+            raise SDG1032XParameterException("Invalid channel")
+
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV AMP,'
+        command += bytes(str(float(vpp)), encoding="ASCII")
+
+        ret = self.internal_socketSend(command)
+
+    def setWaveOffset(self, offsetV, channel=1):
+        if (channel != 1) and (channel != 2):
+            raise SDG1032XParameterException("Invalid channel")
+
+        command = b''
+        if channel == 1:
+            command += b'C1'
+        elif channel == 2:
+            command += b'C2'
+        command += b':BSWV OFST,'
+        command += bytes(str(float(vpp)), encoding="ASCII")
+
+        ret = self.internal_socketSend(offsetV)
