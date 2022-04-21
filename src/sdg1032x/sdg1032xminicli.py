@@ -2,7 +2,7 @@
 import time, sys
 import textwrap
 
-from sdg1032x import SDG1032X
+from sdg1032x.sdg1032x import SDG1032X
 
 def printUsage():
     print(textwrap.dedent("""
