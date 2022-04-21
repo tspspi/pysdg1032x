@@ -1,6 +1,6 @@
 # SDG1032X Python library
 
-This (unofficial) library allows one to control some functions of the
+This (unofficial) library allows one to control __some__ functions of the
 SDG1032X arbitrary waveform generator using Python in a simple way via
 Ethernet.
 
@@ -23,3 +23,17 @@ Exposed functionality:
 | Set waveform         | ```setWaveType(waveform, channel=1)```                             | y           | y      | Sets the waveform of the signal               |
 | Set frequency        | ```setWaveFrequency(frequency, channel=1)```                       | y           | y      | Sets the waves frequency                      |
 | Set period           | ```setWavePeriod(period, channel=1)```                             | y           | y      | Sets the waves period                         |
+| Set wave amplitude   | ```setWaveAmplitude(vpp, channel=1)```                             | y           |        | Sets the amplitude of the wave in Vpp         |
+| Set wave offset      | ```setWaveOffset(offsetV, channel=1)```                            | y           |        | Sets the offset of the wave in V              |
+
+## Usage example
+
+```
+with SDG1032X("10.0.0.14") as sdg:
+    print("Identify returns: {}".format(sdg.identify()))
+
+    sdg.setWaveType(sdg.WAVEFORM_SINE)
+
+    for f in range(100, 1100, 100):
+        sdg.setWavePeriod(f)
+```
