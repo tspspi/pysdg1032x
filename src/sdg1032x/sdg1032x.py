@@ -94,6 +94,10 @@ class SDG1032X:
 
     def identify(self):
         ret = self.internal_socketSend(b'*IDN')
+        ret = ret.decode('ascii')
+        lines = ret.splitlines()
+        ret = ""
+        ret = lines[0].strip()
         return ret
 
     def outputEnable(self, channel=1, polarity=POLARITY_NORMAL, load="HZ"):
