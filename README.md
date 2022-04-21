@@ -37,3 +37,75 @@ with SDG1032X("10.0.0.14") as sdg:
     for f in range(100, 1100, 100):
         sdg.setWavePeriod(f)
 ```
+
+## Installation
+
+There are two ways of simply installing the library. One can install
+if via ```pip``` from PyPi:
+
+```
+pip install pysdg1032x-tspspi
+```
+
+Or one can install it from the downloaded ZIP file from the [Releases section](https://github.com/tspspi/pysdg1032x/releases)
+by using pip (substituting ```X.Y.Z``` by the desired version number):
+
+```
+pip install pysdg1032x-tspspi-X.Y.Z.tar.gz
+```
+
+## The CLI utility
+
+There is a simple CLI utility that allows one to control the function generator
+from the commandline or via scripts. This tool is called ```sdg1032x```:
+
+```
+SDG1032X signal generator remote control utility
+
+Note: This tool is an inofficial tool and in no way associated
+with Siglent
+
+Usage:
+	sdg1032x [settings] <commands>
+
+Settings:
+	--host ADDRESS		Sets the remote hostname or IP
+
+Commands:
+	id			Asks the SDG for it's identity
+	defaults		Resets the SDG to it's factory defaults
+
+Simple channel commands:
+	on N			Enabled the channel N
+	off N			Disabled the channel N
+
+Waveform commands:
+	wavetype N WTYPE	Sets the selected wave type. Valid options are:
+				sine	Sinusoidal waveform
+				square	Square wave
+				ramp	Ramping
+				pulse	Pulsing
+				noise	Noise generator
+				arbitrary	Arbitrary waveform from WAV
+				dc	Discrete current
+				prbs	Pseudo random binary sequence
+	frq N FREQ		Set frequency of channel N to FREQ Hz
+	period N PERIOD		Set period of channel N to PERIOD seconds
+	amp N AMP		Set amplitude of wave for channel N to AMP Vpp
+	offset N OFF		Set offset of channel N to OFF V
+
+Burst mode commands (per channel):
+	duty N CYCLE		Sets the burst duty cycle for channel N to CYCLE percent
+	burston N		Enables burst mode for channel N
+	burstoff N		Disables burst mode for channel N
+	burstperiod N PERIOD	Sets the burst period for channel N to PERIOD seconds
+	burstdelay N DELAY	Sets the burst delay for channel N to DELAY seconds
+	bursttrigsource N SRC	Sets the given trigger source. Valid options are:
+				int	internal trigger source
+				ext	external trigger source
+				man	manual trigger source
+	burstmode N MODE	Sets the burst mode. Valid modes are:
+				gate	Gated burst mode
+				ncyc	Number of cycles burst mode
+	burst N			Trigger burst on channel N
+```
