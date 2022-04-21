@@ -302,6 +302,6 @@ class SDG1032X:
         elif channel == 2:
             command += b'C2'
         command += b':BSWV OFST,'
-        command += bytes(str(float(vpp)), encoding="ASCII")
+        command += bytes(str(float(offsetV)), encoding="ASCII")
 
-        ret = self.internal_socketSend(offsetV)
+        ret = self.internal_socketSend(command)

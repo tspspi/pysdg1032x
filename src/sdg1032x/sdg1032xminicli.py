@@ -2,8 +2,7 @@
 import time, sys
 import textwrap
 
-# from sdg1032x import sdg1032x
-import sdg1032x
+from sdg1032x import SDG1032X
 
 def printUsage():
     print(textwrap.dedent("""
@@ -192,11 +191,11 @@ def sdg1032xminicli():
                 return
             trSource = None
             if sys.argv[i+2].strip() == "int":
-                trSource = sdg.TRIGGERSOURCE_INTERNAL
+                trSource = SDG1032X.TRIGGERSOURCE_INTERNAL
             if sys.argv[i+2].strip() == "ext":
-                trSource = sdg.TRIGGERSOURCE_EXTERNAL
+                trSource = SDG1032X.TRIGGERSOURCE_EXTERNAL
             if sys.argv[i+2].strip() == "man":
-                trSource = sdg.TRIGGERSOURCE_MANUAL
+                trSource = SDG1032X.TRIGGERSOURCE_MANUAL
             if trSource == None:
                 print("Invalid burst trigger source {} on channel {} (should be internal, external or manual)".format(sys.argv[i+2].strip(), ch))
         elif sys.argv[i].strip() == "burstmode":
@@ -209,11 +208,12 @@ def sdg1032xminicli():
                 print("Invalid channel {} for SDG".format(sys.argv[i+1].strip()))
                 sys.exit(2)
                 return
+            ch = int(sys.argv[i+1].strip())
             trMode = None
             if sys.argv[i+2].strip() == "gate":
-                trMode = sdg.BURSTMODE_GATE
+                trMode = SDG1032X.BURSTMODE_GATE
             if sys.argv[i+2].strip() == "ncyc":
-                trMode = sdg.BURSTMODE_NCYC
+                trMode = SDG1032X.BURSTMODE_NCYC
             if trMode == None:
                 print("Invalid burst mode {} on channel {}".format(sys.argv[i+2], ch))
         elif sys.argv[i].strip() == "burst":
@@ -238,21 +238,21 @@ def sdg1032xminicli():
                 return
             wType = None
             if (sys.argv[i+2].strip() == "sine") or (sys.argv[i+2].strip() == "sin"):
-                wType = sdg.WAVEFORM_SINE
+                wType = SDG1032X.WAVEFORM_SINE
             elif sys.argv[i+2].strip() == "square":
-                wType = sdg.WAVEFORM_SQUARE
+                wType = SDG1032X.WAVEFORM_SQUARE
             elif sys.argv[i+2].strip() == "ramp":
-                wType = sdg.WAVEFORM_RAMP
+                wType = SDG1032X.WAVEFORM_RAMP
             elif sys.argv[i+2].strip() == "pulse":
-                wType = sdg.WAVEFORM_PUSLE
+                wType = SDG1032X.WAVEFORM_PUSLE
             elif sys.argv[i+2].strip() == "noise":
-                wType = sdg.WAVEFORM_NOISE
+                wType = SDG1032X.WAVEFORM_NOISE
             elif sys.argv[i+2].strip() == "arbitrary":
-                wType = sdg.WAVEFORM_ARBITRARY
+                wType = SDG1032X.WAVEFORM_ARBITRARY
             elif sys.argv[i+2].strip() == "dc":
-                wType = sdg.WAVEFORM_DC
+                wType = SDG1032X.WAVEFORM_DC
             elif sys.argv[i+2].strip() == "prbs":
-                wType = sdg.WAVEFORM_PSEUDORANDOMBINARY
+                wType = SDG1032X.WAVEFORM_PSEUDORANDOMBINARY
             if wType == None:
                 print("Unknown waveform {}".format(sys.argv[i+2].strip()))
         elif sys.argv[i].strip == "frq":
@@ -337,7 +337,7 @@ def sdg1032xminicli():
         sys.exit(1)
 
     try:
-        with sdg1032x.SDG1032X(host) as sdg:
+        with SDG1032X(host) as sdg:
             skipArg = 0
             for i in range(1, len(sys.argv)):
                 if skipArg > 0:
