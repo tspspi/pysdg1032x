@@ -19,12 +19,12 @@ Exposed functionality:
 | Setting burst delay  | ```setBurstDelay(delay, channel=1)```                              | y           | y      |                                               |
 | Setting burst tigger | ```setBurstTriggerSource(triggerSource, channel=1)```              | y           | y      | Sets internal, external or manual trigger     |
 | Setting burst mode   | ```setBurstMode(burstMode, channel=1)```                           | y           | y      |                                               |
-| Triggering burst     | ```triggerBurst(channel=1)```                                      | y           |        |                                               |
+| Triggering burst     | ```triggerBurst(channel=1)```                                      | y           | y      |                                               |
 | Set waveform         | ```setWaveType(waveform, channel=1)```                             | y           | y      | Sets the waveform of the signal               |
 | Set frequency        | ```setWaveFrequency(frequency, channel=1)```                       | y           | y      | Sets the waves frequency                      |
 | Set period           | ```setWavePeriod(period, channel=1)```                             | y           | y      | Sets the waves period                         |
-| Set wave amplitude   | ```setWaveAmplitude(vpp, channel=1)```                             | y           |        | Sets the amplitude of the wave in Vpp         |
-| Set wave offset      | ```setWaveOffset(offsetV, channel=1)```                            | y           |        | Sets the offset of the wave in V              |
+| Set wave amplitude   | ```setWaveAmplitude(vpp, channel=1)```                             | y           | y      | Sets the amplitude of the wave in Vpp         |
+| Set wave offset      | ```setWaveOffset(offsetV, channel=1)```                            | y           | y      | Sets the offset of the wave in V              |
 
 ## Usage example
 
