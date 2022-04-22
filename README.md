@@ -29,6 +29,8 @@ Exposed functionality:
 ## Usage example
 
 ```
+from sdg1032x.sdg1032x import SDG1032X
+
 with SDG1032X("10.0.0.14") as sdg:
     print("Identify returns: {}".format(sdg.identify()))
 
