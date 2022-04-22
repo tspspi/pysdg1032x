@@ -49,12 +49,21 @@ if via ```pip``` from PyPi:
 pip install pysdg1032x-tspspi
 ```
 
-Or one can install it from the downloaded ZIP file from the [Releases section](https://github.com/tspspi/pysdg1032x/releases)
+Or one can install it from the downloaded ```tar.gz``` file from the [Releases section](https://github.com/tspspi/pysdg1032x/releases)
 by using pip (substituting ```X.Y.Z``` by the desired version number):
 
 ```
 pip install pysdg1032x-tspspi-X.Y.Z.tar.gz
 ```
+
+To install the latest package one can just leave the version number:
+
+```
+pip install sdg1032x-tspspi
+```
+
+The ```pip``` packages and the release packages are automatically generated whenever
+a new tag is pushed by a Jenkins instance.
 
 ## The CLI utility
 
